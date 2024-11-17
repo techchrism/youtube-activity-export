@@ -1,6 +1,6 @@
 import type { Component } from 'solid-js'
 import { IoOpenOutline } from 'solid-icons/io'
-import FileUpload from "./FileUpload"
+import FileUpload from "./components/FileUpload"
 
 const App: Component = () => {
   return (

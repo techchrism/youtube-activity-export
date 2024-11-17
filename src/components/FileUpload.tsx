@@ -1,8 +1,8 @@
 import type {Component} from 'solid-js'
 import {createEffect, createResource, createSignal, Show} from 'solid-js'
-import {ParsedZip} from './parseZip'
-import ParseZipWorker from './parseZipWorker?worker'
-import { ParseZipMessage } from './parseZipWorker'
+import {ParsedZip} from '../parse/parseZip'
+import ParseZipWorker from '../parse/parseZipWorker?worker'
+import { ParseZipMessage } from '../parse/parseZipWorker'
 
 export type FileUploadProps = {
     onParse?: (parsedZip: ParsedZip) => void
@@ -20,7 +20,6 @@ const FileUpload: Component<FileUploadProps> = (props) => {
         const buffer = await file.arrayBuffer()
         return await new Promise((resolve, reject) => {
             const messageHandler = (message: MessageEvent<ParseZipMessage>) => {
-                console.log(message.data)
                 if(message.data.type === 'error') {
                     parseZipWorker.removeEventListener('message', messageHandler)
                     reject(message.data.error)
