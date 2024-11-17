@@ -11,7 +11,7 @@ type Keys<T> = Array<keyof T>
 type YouTubeActivityData = Array<{
     header: string
     title: string,
-    titleUrl: string
+    titleUrl?: string | undefined
     time: string
 }>
 
@@ -37,6 +37,7 @@ const ACTIVITY_TITLE_PREFIX_PLAYLISTS = {
     'Liked ': 'Liked videos',
     'Disliked ': 'Disliked videos'
 } as const
+const ACTIVITY_URL_PREFIX = 'https://www.youtube.com/watch'
 
 type ActivityPlaylists = Record<keyof typeof ACTIVITY_TITLE_PREFIX_PLAYLISTS, {
     videos: ParsedZip['playlists'][number]['videos'],
@@ -86,7 +87,12 @@ export function parseArrayBuffer(buffer: ArrayBuffer) {
 
         for(const item of activityData.filter(item => item.header === 'YouTube')) {
             for(const prefix of (Object.keys(ACTIVITY_TITLE_PREFIX_PLAYLISTS) as Keys<typeof ACTIVITY_TITLE_PREFIX_PLAYLISTS>)) {
-                if(item.title.startsWith(prefix) && !vids[prefix].existingUrls.has(item.titleUrl)) {
+                if(
+                    item.title.startsWith(prefix) &&
+                    item.hasOwnProperty('titleUrl') &&
+                    item.titleUrl.startsWith(ACTIVITY_URL_PREFIX) &&
+                    !vids[prefix].existingUrls.has(item.titleUrl)
+                ) {
                     vids[prefix].existingUrls.add(item.titleUrl)
                     vids[prefix].videos.push({
                         url: item.titleUrl,
