@@ -3,6 +3,7 @@ import {createEffect, createResource, createSignal, Show} from 'solid-js'
 import {ParsedZip} from '../parse/parseZip'
 import ParseZipWorker from '../parse/parseZipWorker?worker'
 import { ParseZipMessage } from '../parse/parseZipWorker'
+import { BiRegularUpload } from 'solid-icons/bi'
 
 export type FileUploadProps = {
     onParse?: (parsedZip: ParsedZip) => void
@@ -52,10 +53,10 @@ const FileUpload: Component<FileUploadProps> = (props) => {
         <>
             <input type="file" accept=".zip" class="hidden" ref={hiddenInput} onChange={onChanged}/>
             <button class="btn btn-primary btn-lg" disabled={parsedData.loading} onClick={uploadClick}>
-                <Show when={parsedData.loading}>
+                <Show when={parsedData.loading} fallback={<BiRegularUpload />}>
                     <span class="loading loading-spinner loading-md"/>
                 </Show>
-                Click to Upload
+                Load Takeout Zip
             </button>
             <Show when={parsedData.state === 'errored'}>
                 <div class="alert alert-error shadow-lg mt-2">
@@ -64,6 +65,9 @@ const FileUpload: Component<FileUploadProps> = (props) => {
                     </div>
                 </div>
             </Show>
+            <div class="m-1 font-light">
+                Note: This is a client-side webapp - all processing happens on your device and no data is uploaded to a server
+            </div>
         </>
     )
 }

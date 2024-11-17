@@ -3,6 +3,7 @@ import {ParsedZip} from '../parse/parseZip'
 import uzip from 'uzip'
 import filenamify from 'filenamify'
 import PlaylistTableRow from './PlaylistTableRow'
+import { BiSolidDownload } from 'solid-icons/bi'
 
 export type PlaylistTableProps = {
     parsedZip: ParsedZip
@@ -80,6 +81,7 @@ const PlaylistTable: Component<PlaylistTableProps> = (props) => {
             </table>
 
             <button class="btn btn-success btn-lg" disabled={selectedCount() === 0} onClick={download}>
+                <BiSolidDownload />
                 Download {selectedCount()} playlist{selectedCount() === 1 ? '' : 's'}
             </button>
         </>
