@@ -1,5 +1,6 @@
-import type { Component } from "solid-js";
+import type { Component } from 'solid-js'
 import { IoOpenOutline } from 'solid-icons/io'
+import FileUpload from "./FileUpload"
 
 const App: Component = () => {
   return (
@@ -31,6 +32,8 @@ const App: Component = () => {
               <li>Click "Create Export" and wait for the email indicating your data download is ready! For my data, it took about 10 minutes.</li>
             </ol>
           </div>
+          <div class="divider"/>
+          <FileUpload/>
         </div>
       </div>
     </div>
