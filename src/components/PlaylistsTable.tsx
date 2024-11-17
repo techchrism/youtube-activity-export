@@ -2,6 +2,7 @@ import {createEffect, createMemo, createSignal, For, type Component} from 'solid
 import {ParsedZip} from '../parse/parseZip'
 import uzip from 'uzip'
 import filenamify from 'filenamify'
+import PlaylistTableRow from './PlaylistTableRow'
 
 export type PlaylistTableProps = {
     parsedZip: ParsedZip
@@ -68,17 +69,12 @@ const PlaylistTable: Component<PlaylistTableProps> = (props) => {
                         </th>
                         <th>Playlist Name</th>
                         <th>Videos</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <For each={props.parsedZip.playlists}>
-                        {(item, index) => <tr>
-                            <td>
-                                <input type="checkbox" class="checkbox" checked={selected()[index()]} onClick={() => toggleSelected(index())}/>
-                            </td>
-                            <td>{item.name}</td>
-                            <td>{item.videos.length}</td>
-                        </tr>}
+                        {(item, index) => <PlaylistTableRow playlist={item} selected={selected()[index()]} onSelectionToggle={() => toggleSelected(index())}/>}
                     </For>
                 </tbody>
             </table>
